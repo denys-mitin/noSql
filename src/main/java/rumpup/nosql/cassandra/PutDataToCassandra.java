@@ -43,5 +43,6 @@ public class PutDataToCassandra {
                         UUID.randomUUID(), visitorId, stationId, amount, cost);
             }
         }
+        System.exit(0);
     }
 }
