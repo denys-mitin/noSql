@@ -1,7 +1,6 @@
 Rump Up "NoSQL"
 =====
 
-* fill cassandra tables from Java
-* configure Apache Camel replication to ElasticSearch
+* fill Cassandra tables from Java
+* create a Java tool to replicate data to ElasticSearch
 * get ElasticSearch data from Java
-* show ES data in Kibana

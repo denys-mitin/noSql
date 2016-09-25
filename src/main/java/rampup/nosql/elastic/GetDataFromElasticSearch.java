@@ -1,4 +1,4 @@
-package rumpup.nosql.elastic;
+package rampup.nosql.elastic;
 
 import org.elasticsearch.action.ActionFuture;
 import org.elasticsearch.action.get.GetRequest;
@@ -17,7 +17,7 @@ public class GetDataFromElasticSearch {
                 TransportClient client = TransportClient.builder().build()
                         .addTransportAddress(new InetSocketTransportAddress(new InetSocketAddress("localhost", 9300)))
                ) {
-            ActionFuture<GetResponse> response = client.get(new GetRequest("visits").id(UUID.randomUUID().toString()));
+            ActionFuture<GetResponse> response = client.get(new GetRequest("visit").id(UUID.randomUUID().toString()));
             if (response.isDone()) {
                 System.out.println(response.get().toString());
             }
@@ -27,5 +27,6 @@ public class GetDataFromElasticSearch {
             }
             client.close();
         }
+        System.exit(0);
     }
 }
