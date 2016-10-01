@@ -38,7 +38,7 @@ public class Integration {
     public static void main(String[] args) {
         try (
                 Cluster cassandraCluster = Cluster.builder().addContactPoint("127.0.0.1").build();
-                Session cassandraCession = cassandraCluster.connect("ramp_up");
+                Session cassandraSession = cassandraCluster.connect("ramp_up");
                 TransportClient elasticClient = TransportClient.builder().build()
                         .addTransportAddress(new InetSocketTransportAddress(new InetSocketAddress("localhost", 9300)))) {
             // drop ElasticSearch index
@@ -55,7 +55,7 @@ public class Integration {
                 System.exit(1);
             }
             // fetch from Cassandra in batches and put to ElasticSearch
-            ResultSet rs = cassandraCession.execute("SELECT * FROM \"Station\"");
+            ResultSet rs = cassandraSession.execute("SELECT * FROM \"Station\"");
             for (Row row : rs) {
                 Station station = new Station();
                 station.setId(row.get("id", UUID.class));
@@ -63,7 +63,7 @@ public class Integration {
                 stations.put(station.getId(), station);
                 logger.info(station.toString());
             }
-            rs = cassandraCession.execute("SELECT * FROM \"Visitor\"");
+            rs = cassandraSession.execute("SELECT * FROM \"Visitor\"");
             for (Row row : rs) {
                 Visitor visitor = new Visitor();
                 visitor.setId(row.get("id", UUID.class));
@@ -72,7 +72,7 @@ public class Integration {
                 visitors.put(visitor.getId(), visitor);
                 logger.info(visitor.toString());
             }
-            rs = cassandraCession.execute("SELECT * FROM \"Visit\"");
+            rs = cassandraSession.execute("SELECT * FROM \"Visit\"");
             for (Row row : rs) {
                 Visit visit = new Visit();
                 visit.setId(row.get("id", UUID.class));
