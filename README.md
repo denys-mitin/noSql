@@ -6,7 +6,7 @@
 
 ### Useful queries
 
-** Stations by total amount of patrol sold **
+** Stations by total amount of petrol sold **
 
 ```
 GET ramp_up/_search
