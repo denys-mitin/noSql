@@ -2,12 +2,8 @@ package rampup.nosql.data;
 
 import lombok.Data;
 
-import java.util.UUID;
-
 @Data
 public class Visit {
-
-    private UUID id;
 
     private Station station;
 
@@ -16,4 +12,6 @@ public class Visit {
     private float amount;
 
     private float cost;
+
+    private long time;
 }
