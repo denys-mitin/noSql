@@ -4,7 +4,6 @@ import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import rampup.nosql.elastic.GetDataFromElasticSearch;
 
 import java.util.Random;
 import java.util.UUID;
