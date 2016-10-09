@@ -6,8 +6,8 @@
 
 ### Useful queries
 
-** Test data **
-
+#### Test data
+```
 POST ramp_up/visit
 {
   "id": "b7cd58de40eb41b4aa18f6b73887b35e",
@@ -28,8 +28,9 @@ POST ramp_up/visit
   "cost": 0.13086319,
   "time": 1475977670438
 }
+```
 
-** Template with uuids, timestamps and geo fields **
+#### Template with uuids, timestamps and geo fields
 ```
 PUT _template/ramp_up
 {
@@ -54,7 +55,7 @@ PUT _template/ramp_up
 ```
 Note: ElasticSearch has no uuid type.
 
-** Stations by total amount of petrol sold **
+#### Stations by total amount of petrol sold
 ```
 GET ramp_up/_search
 {
@@ -79,7 +80,7 @@ GET ramp_up/_search
 }
 ```
 
-** Stations by count of visits **
+#### Stations by count of visits
 ```
 GET ramp_up/_search
 {
@@ -104,7 +105,7 @@ GET ramp_up/_search
 }
 ```
 
-** Top visitors by total amount paid **
+#### Top visitors by total amount paid
 ```
 GET ramp_up/_search
 {
