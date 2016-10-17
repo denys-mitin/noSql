@@ -22,10 +22,12 @@ public class PutDataToCassandra {
         try (
                 Cluster cluster = Cluster.builder().addContactPoint("127.0.0.1").build();
                 Session session = cluster.connect("ramp_up")) {
+
             logger.info("truncate tables");
             session.execute("TRUNCATE \"Visit\"");
             session.execute("TRUNCATE \"Visitor\"");
             session.execute("TRUNCATE \"Station\"");
+
             logger.info("create stations");
             UUID[] stationUUIDs = new UUID[STATIONS_COUNT];
             for (int i = 0; i < STATIONS_COUNT; i++) {
@@ -33,6 +35,7 @@ public class PutDataToCassandra {
                 session.execute("INSERT INTO \"Station\" (id, name) VALUES (?, ?)",
                         stationUUIDs[i], "Station" + i);
             }
+
             logger.info("create visitors");
             UUID[] visitorUUIDs = new UUID[VISITORS_COUNT];
             for (int i = 0; i < VISITORS_COUNT; i++) {
@@ -40,6 +43,7 @@ public class PutDataToCassandra {
                 session.execute("INSERT INTO \"Visitor\" (id, \"firstName\", \"lastName\") VALUES (?, ?, ?)",
                         visitorUUIDs[i], "FirstName" + i, "LastName" + i);
             }
+
             logger.info("create visits");
             Random r = new Random(System.currentTimeMillis());
             for (int i = 0; i < VISITS_COUNT; i++) {

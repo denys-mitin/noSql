@@ -67,6 +67,7 @@ public class Integration {
                 Session cassandraSession = cassandraCluster.connect(C_KEYSPACE);
                 TransportClient elasticClient = TransportClient.builder().build()
                         .addTransportAddress(new InetSocketTransportAddress(new InetSocketAddress("localhost", 9300)))) {
+
             // drop ElasticSearch index
             IndicesExistsRequest existsRequest = elasticClient.admin().indices().prepareExists(ES_INDEX).request();
             if (elasticClient.admin().indices().exists(existsRequest).actionGet().isExists()) {
@@ -80,13 +81,15 @@ public class Integration {
                 logger.error(String.format("Index %s still exists", ES_INDEX));
                 System.exit(1);
             }
+
             // create/update ElasticSearch template
-            PutIndexTemplateRequestBuilder indexTemplateRequestBuilder = elasticClient.admin().indices().
-                    preparePutTemplate(ES_INDEX).addMapping(ES_TYPE, ES_MAPPING).setTemplate(ES_INDEX);
+            PutIndexTemplateRequestBuilder indexTemplateRequestBuilder = elasticClient.admin().indices()
+                    .preparePutTemplate(ES_INDEX).addMapping(ES_TYPE, ES_MAPPING).setTemplate(ES_INDEX);
             PutIndexTemplateResponse templateResponse = indexTemplateRequestBuilder.execute().actionGet();
             if (!templateResponse.isAcknowledged()) {
                 logger.error(String.format("Failed to create/update ElasticSearch template named %s", ES_INDEX));
             }
+
             // fetch from Cassandra in batches and put to ElasticSearch
             Random r = new Random(System.currentTimeMillis());
             ResultSet rs = cassandraSession.execute("SELECT * FROM \"Station\"");
