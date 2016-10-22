@@ -35,7 +35,7 @@ public class Integration {
 
     public static final int RANDOM_HOURS = 100;
 
-    public static final String C_KEYSPACE = "ramp_up";
+    public static final String CASSANDRA_KEYSPACE = "ramp_up";
 
     public static final String ES_INDEX = "ramp_up";
 
@@ -57,14 +57,10 @@ public class Integration {
                 "}" +
             "}";
 
-    private static Map<UUID, Station> stations = Maps.newHashMap();
-
-    private static Map<UUID, Visitor> visitors = Maps.newHashMap();
-
     public static void main(String[] args) {
         try (
                 Cluster cassandraCluster = Cluster.builder().addContactPoint("127.0.0.1").build();
-                Session cassandraSession = cassandraCluster.connect(C_KEYSPACE);
+                Session cassandraSession = cassandraCluster.connect(CASSANDRA_KEYSPACE);
                 TransportClient elasticClient = TransportClient.builder().build()
                         .addTransportAddress(new InetSocketTransportAddress(new InetSocketAddress("localhost", 9300)))) {
 
@@ -91,8 +87,9 @@ public class Integration {
             }
 
             // fetch from Cassandra in batches and put to ElasticSearch
-            Random r = new Random(System.currentTimeMillis());
+            Map<UUID, Station> stations = Maps.newHashMap();
             ResultSet rs = cassandraSession.execute("SELECT * FROM \"Station\"");
+            Random r = new Random(System.currentTimeMillis());
             for (Row row : rs) {
                 Station station = new Station();
                 station.setId(row.get("id", UUID.class));
@@ -105,6 +102,7 @@ public class Integration {
                 stations.put(station.getId(), station);
                 logger.info(station.toString());
             }
+            Map<UUID, Visitor> visitors = Maps.newHashMap();
             rs = cassandraSession.execute("SELECT * FROM \"Visitor\"");
             for (Row row : rs) {
                 Visitor visitor = new Visitor();
