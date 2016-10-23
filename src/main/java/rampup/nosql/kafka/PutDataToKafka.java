@@ -23,6 +23,8 @@ public class PutDataToKafka {
 
     public static final String KAFKA_TOPIC = "visits";
 
+    public static final String DELIMITER = ":";
+
     public static void main(String[] args) {
         Properties kafkaProperties = new Properties();
         kafkaProperties.put("bootstrap.servers", "localhost:9092");
@@ -63,7 +65,7 @@ public class PutDataToKafka {
                 UUID visitorId = visitorUUIDs.get(r.nextInt(PutDataToCassandra.VISITORS_COUNT));
                 float amount = r.nextFloat();
                 float cost = r.nextFloat();
-                String value = String.join(":", visitorId.toString(), stationId.toString(), Float.toString(amount), Float.toString(cost));
+                String value = String.join(DELIMITER, visitorId.toString(), stationId.toString(), Float.toString(amount), Float.toString(cost));
                 kafkaProducer.send(new ProducerRecord<>(KAFKA_TOPIC, key, value));
                 logger.info(key + ", " + value);
             }

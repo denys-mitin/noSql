@@ -29,9 +29,9 @@ import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
-public class Integration {
+public class FromCassandraToES {
 
-    private static Logger logger = LoggerFactory.getLogger(Integration.class);
+    private static Logger logger = LoggerFactory.getLogger(FromCassandraToES.class);
 
     public static final int RANDOM_HOURS = 100;
 
